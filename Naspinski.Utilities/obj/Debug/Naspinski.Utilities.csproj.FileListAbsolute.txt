@@ -3,3 +3,4 @@ C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.U
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Utilities\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Utilities\obj\Debug\Naspinski.Utilities.dll
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Utilities\obj\Debug\Naspinski.Utilities.pdb
+C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Utilities\bin\Debug\System.Linq.Dynamic.dll
