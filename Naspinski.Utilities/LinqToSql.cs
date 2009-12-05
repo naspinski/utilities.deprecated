@@ -44,16 +44,10 @@ namespace Naspinski.Utilities
         /// <returns>T</returns>
         public static T Get<T>(this DataContext dataContext, object primaryKey) where T : class, INotifyPropertyChanged
         {
-            try
-            {
-                var table = dataContext.GetTable(typeof(T)).Cast<T>();
-                return table.Get<T>(primaryKey);
-            }
-            catch (ParseException ex)
-            {
-                throw new ParseException("Primary Key of table is of Type: " + GetPrimaryKey<T>().PropertyType.ToString() +
-                    ", Primary Key you sent is of Type: " + primaryKey.GetType().ToString() + "; " + ex.Message, ex.Position);
-            }
+            if (GetPrimaryKey<T>().PropertyType != primaryKey.GetType())
+                throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + GetPrimaryKey<T>().PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
+
+            return dataContext.GetTable(typeof(T)).Cast<T>().Get<T>(primaryKey);
         }
 
         /// <summary>
@@ -66,8 +60,7 @@ namespace Naspinski.Utilities
         private static T Get<T>(this IQueryable<T> table, object primaryKey) where T : class, INotifyPropertyChanged
         {
             Type[] typesThatUseEquals = new Type[] { typeof(Guid), typeof(string) };
-            string equalsString = typesThatUseEquals.Contains(primaryKey.GetType()) ? ".Equals(@0)" : "==@0";
-            return table.Where(GetPrimaryKey<T>().Name + equalsString, primaryKey).FirstOrDefault();
+            return table.Where(GetPrimaryKey<T>().Name + ".Equals(@0)", primaryKey).FirstOrDefault();
         }
     }
 }
