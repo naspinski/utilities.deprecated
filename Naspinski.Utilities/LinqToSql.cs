@@ -46,21 +46,7 @@ namespace Naspinski.Utilities
         {
             if (GetPrimaryKey<T>().PropertyType != primaryKey.GetType())
                 throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + GetPrimaryKey<T>().PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
-
-            return dataContext.GetTable(typeof(T)).Cast<T>().Get<T>(primaryKey);
-        }
-
-        /// <summary>
-        /// Universal Get accessor for any Linq-to-SQL Table; requires that the table has a PRIMARY KEY NOT NULL
-        /// </summary>
-        /// <typeparam name="T">The type of the table</typeparam>
-        /// <param name="table">The table you wish to query for the object</param>
-        /// <param name="primaryKey">Primary Key of the object</param>
-        /// <returns>T</returns>
-        private static T Get<T>(this IQueryable<T> table, object primaryKey) where T : class, INotifyPropertyChanged
-        {
-            Type[] typesThatUseEquals = new Type[] { typeof(Guid), typeof(string) };
-            return table.Where(GetPrimaryKey<T>().Name + ".Equals(@0)", primaryKey).FirstOrDefault();
+            return dataContext.GetTable(typeof(T)).Cast<T>().Where(GetPrimaryKey<T>().Name + ".Equals(@0)", primaryKey).FirstOrDefault();
         }
     }
 }
