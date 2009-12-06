@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+using System.ComponentModel;
 
 namespace Naspinski.Utilities
 {
@@ -15,49 +12,13 @@ namespace Naspinski.Utilities
 
         public static Nullable<T> ToNullable<T>(this string s) where T : struct
         {
-            if (string.IsNullOrEmpty(s)) return null;
-            T? nullable = null;
-
-            //possible values for the first param names in the TryParse
-            string[] firstParams = new string[] { "s", "value" };
-            object[] parameters = new object[] { s, nullable };
-            
-            MethodInfo tryParse = typeof(T).GetMethods()
-                .Where(x => x.Name.Equals("TryParse") && 
-                    x.GetParameters().Count() == 2 &&
-                    firstParams.Contains(x.GetParameters()[0].Name) &&
-                    x.GetParameters()[1].Name.Equals("result"))
-                .SingleOrDefault();
-            if(tryParse == null) throw new NotSupportedException(typeof(T).ToString() + " does not have the proper TryParse method for this extension");
-            
-            tryParse.Invoke(null, parameters);
-            nullable = (T?)parameters[1];
-            return nullable;
-        }
-       
-
-        public static Nullable<T> ToNullable<T>(this string s, TryParseDelegate<T> tryParse) where T : struct
-        {
-            T? tester;
-            if (TryParseNullable<T>(s, out tester, tryParse)) return tester;
-            else return null;
-        }
-
-        public delegate bool TryParseDelegate<T>(string s, out T result);
-        public static bool TryParseNullable<T>(string s, out Nullable<T> result, TryParseDelegate<T> tryParse) where T : struct
-        {
-            if (string.IsNullOrEmpty(s))
+            T? result = null; 
+            if (!string.IsNullOrEmpty(s.Trim())) 
             {
-                result = null;
-                return true;
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(T?)); 
+                result = (T?)converter.ConvertFrom(s); 
             }
-            else
-            {
-                T temp;
-                bool success = tryParse(s, out temp);
-                result = temp;
-                return success;
-            }
+            return result;
         }
     }
 }
