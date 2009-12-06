@@ -10,30 +10,6 @@ namespace Naspinski.Utilities
 {
     public static class LinqToSql
     {
-        /// <summary>
-        /// Gets the primary key of a Linq-to-SQL table; requires that the table has a PRIMARY KEY NOT NULL
-        /// </summary>
-        /// <typeparam name="T">Type that you wish to find the primary key of</typeparam>
-        /// <returns>PropertyInfo of the Primary Key of the supplied Type</returns>
-        public static PropertyInfo GetPrimaryKey<T>() where T : class, INotifyPropertyChanged
-        {
-            PropertyInfo[] infos = typeof(T).GetProperties();
-            PropertyInfo PKProperty = null;
-            foreach (PropertyInfo info in infos)
-            {
-                var column = info.GetCustomAttributes(false)
-                    .Where(x => x.GetType() == typeof(ColumnAttribute))
-                    .SingleOrDefault(x => ((ColumnAttribute)x).IsPrimaryKey && ((ColumnAttribute)x).DbType.Contains("NOT NULL"));
-                if (column != null)
-                {
-                    PKProperty = info;
-                    break;
-                }
-            }
-            if (PKProperty == null) 
-                throw new NotSupportedException(typeof(T).ToString() + " has no Primary Key");
-            return PKProperty;
-        }
 
         /// <summary>
         /// Universal Get accessor for any Linq-to-SQL DataContext; requires that the table has a PRIMARY KEY NOT NULL
@@ -47,6 +23,31 @@ namespace Naspinski.Utilities
             if (GetPrimaryKey<T>().PropertyType != primaryKey.GetType())
                 throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + GetPrimaryKey<T>().PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
             return dataContext.GetTable(typeof(T)).Cast<T>().Where(GetPrimaryKey<T>().Name + ".Equals(@0)", primaryKey).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the primary key of a Linq-to-SQL table; requires that the table has a PRIMARY KEY NOT NULL
+        /// </summary>
+        /// <typeparam name="T">Type that you wish to find the primary key of</typeparam>
+        /// <returns>PropertyInfo of the Primary Key of the supplied Type</returns>
+        public static PropertyInfo GetPrimaryKey<T>() where T : class, INotifyPropertyChanged
+        {
+            PropertyInfo[] infos = typeof(T).GetProperties();
+            PropertyInfo PKProperty = null;
+            foreach (PropertyInfo info in infos)
+            {
+                var column = info.GetCustomAttributes(false)
+                    .Where(x => x.GetType() == typeof(ColumnAttribute))
+                    .FirstOrDefault(x => ((ColumnAttribute)x).IsPrimaryKey && ((ColumnAttribute)x).DbType.Contains("NOT NULL"));
+                if (column != null)
+                {
+                    PKProperty = info;
+                    break;
+                }
+            }
+            if (PKProperty == null) 
+                throw new NotSupportedException(typeof(T).ToString() + " has no Primary Key");
+            return PKProperty;
         }
     }
 }
