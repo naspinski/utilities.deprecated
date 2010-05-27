@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naspinski.Tests", "Naspinski.Tests\Naspinski.Tests.csproj", "{943D7800-62A9-4B75-B931-A1B397BA7906}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naspinski.Utilities", "Naspinski.Utilities\Naspinski.Utilities.csproj", "{70E389E9-3A99-4A1F-A45C-369A76B7B57A}"
