@@ -11,7 +11,7 @@ public static class DynamicProperty
     /// <param name="o">Object you wish to change the property value of</param>
     /// <param name="propertyName">property name to change (case sensitive)</param>
     /// <param name="newValue">new value of the property</param>
-    public static void ChangeProperty(this object o, string propertyName, object newValue)
+    public static void ChangePropertyValue(this object o, string propertyName, object newValue)
     {
         PropertyInfo pi;
         pi = o.GetType().GetProperty(propertyName);
