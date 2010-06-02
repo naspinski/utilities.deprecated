@@ -3,3 +3,8 @@ C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.T
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Tests\obj\Debug\Naspinski.Tests.dll
 C:\Documents and Settings\stan.naspinski\Desktop\Naspinski.Utilities\Naspinski.Tests\obj\Debug\Naspinski.Tests.pdb
+D:\Documents and Settings\naspis\Desktop\Code\Naspinski.Utilities\Naspinski.Tests\bin\Debug\Naspinski.Tests.dll
+D:\Documents and Settings\naspis\Desktop\Code\Naspinski.Utilities\Naspinski.Tests\bin\Debug\Naspinski.Tests.pdb
+D:\Documents and Settings\naspis\Desktop\Code\Naspinski.Utilities\Naspinski.Tests\obj\Debug\ResolveAssemblyReference.cache
+D:\Documents and Settings\naspis\Desktop\Code\Naspinski.Utilities\Naspinski.Tests\obj\Debug\Naspinski.Tests.dll
+D:\Documents and Settings\naspis\Desktop\Code\Naspinski.Utilities\Naspinski.Tests\obj\Debug\Naspinski.Tests.pdb

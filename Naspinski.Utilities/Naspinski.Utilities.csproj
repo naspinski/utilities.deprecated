@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicProperty.cs" />
     <Compile Include="FileStreamSave.cs" />
     <Compile Include="IQueryableSearch.cs" />
     <Compile Include="LinqToSql.cs" />
