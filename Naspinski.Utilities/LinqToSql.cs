@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Naspinski.Utilities
 {
-    public static class LinqToDatabase
+    public static class LinqToSql
     {
         /// <summary>
         /// Universal Get accessor for any Linq-to-SQL DataContext; requires that the table has a PRIMARY KEY NOT NULL
@@ -31,7 +31,6 @@ namespace Naspinski.Utilities
             if (((TableKey)a).PropertyInfo.PropertyType != primaryKey.GetType())
                 throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + ((TableKey)a).PropertyInfo.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
             return dataContext.GetTable(typeof(T)).Cast<T>().Where(((TableKey)a).PropertyInfo.Name + ".Equals(@0)", primaryKey).FirstOrDefault();
-
         }
 
 
