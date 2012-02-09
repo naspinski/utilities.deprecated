@@ -16,22 +16,62 @@ namespace Naspinski.Utilities
         /// </summary>
         /// <typeparam name="T">Type of the object you wish to return, must be a table in the DataContext</typeparam>
         /// <param name="dataContext">DataContext that holds the table you wish to query</param>
+        /// <param name="primaryKey">Primary Key of the object</param>
+        /// <returns>T</returns>
+        public static T Get<T>(this DataContext dataContext, object primaryKey) where T : class, INotifyPropertyChanged
+        {
+            List<string> where = new List<string>();
+            var a = GetPrimaryKey<T>();
+
+            if (a.GetType().Name == "TableMultipleKey")
+            {
+                throw new Exception("Table " + typeof(T).ToString() + " has only Multiple key, excepecting only 1 key");
+            }
+
+            if (((TableKey)a).PropertyInfo.PropertyType != primaryKey.GetType())
+                throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + ((TableKey)a).PropertyInfo.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
+            return dataContext.GetTable(typeof(T)).Cast<T>().Where(((TableKey)a).PropertyInfo.Name + ".Equals(@0)", primaryKey).FirstOrDefault();
+
+        }
+
+
+        /// <summary>
+        /// Universal Get accessor for any Linq-to-SQL DataContext; requires that the table has a PRIMARY KEY NOT NULL
+        /// </summary>
+        /// <typeparam name="T">Type of the object you wish to return, must be a table in the DataContext</typeparam>
+        /// <param name="dataContext">DataContext that holds the table you wish to query</param>
         /// <param name="primaryKey">Dicitionary with a pair of names from primary key and values for query</param>
         /// <returns>T</returns>
-        public static T Get<T>(this DataContext dataContext, Dictionary<string, string> primaryKey) where T : class, INotifyPropertyChanged
+        /// <returns>T</returns>
+        public static T Get<T>(this DataContext dataContext, Dictionary<string, object> primaryKey) where T : class, INotifyPropertyChanged
         {
-                List<string> where = new List<string>();
-                foreach (PropertyInfo info in GetPrimaryKeys<T>().ToArray())
-                    where.Add(info.Name + ".Equals(" + primaryKey[info.Name] + ")");
-                return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray())).FirstOrDefault();
+            List<string> where = new List<string>();
+            var a = GetPrimaryKey<T>();
+
+            if (a.GetType().Name == "TableKey")
+            {
+                throw new Exception("Table " + typeof(T).ToString() + " has only 1 key, excepecting multiple composite Keys");
+            }
+
+            foreach (TableKey tbk in ((TableMultipleKey)a).Keys)
+            {
+                if (tbk.PropertyInfo.PropertyType != primaryKey[tbk.PropertyInfo.Name].GetType())
+                {
+                    throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key name" + tbk.PropertyInfo.Name + " of Table is of Type: " + tbk.PropertyInfo.PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey[tbk.PropertyInfo.Name].GetType().ToString());
+                }
+                where.Add(tbk.PropertyInfo.Name + ".Equals(" + primaryKey[tbk.PropertyInfo.Name].ToString() + ")");
+            }
+            return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray())).FirstOrDefault();
+
         }
+
 
         /// <summary>
         /// Gets the primary key of a Linq-to-SQL table; requires that the table has a PRIMARY KEY NOT NULL
         /// </summary>
         /// <typeparam name="T">Type that you wish to find the primary key of</typeparam>
         /// <returns>List of PropertyInfo of the Primary Key of the supplied Type</returns>
-        public static List<PropertyInfo> GetPrimaryKeys<T>() where T : class, INotifyPropertyChanged
+        public static IPrimaryKey GetPrimaryKey<T>() where T : class, INotifyPropertyChanged
         {
             PropertyInfo[] infos = typeof(T).GetProperties();
             List<PropertyInfo> PKProperty = new List<PropertyInfo>();
@@ -47,17 +87,20 @@ namespace Naspinski.Utilities
             }
             if (PKProperty == null)
                 throw new NotSupportedException(typeof(T).ToString() + " has no Primary Key");
-            return PKProperty;
-        }
 
-        /// <summary>
-        /// Gets the primary key of a Linq-to-SQL table; requires that the table has a PRIMARY KEY NOT NULL
-        /// </summary>
-        /// <typeparam name="T">Type that you wish to find the primary key of</typeparam>
-        /// <returns>PropertyInfo of the Primary Key of the supplied Type</returns>
-        public static PropertyInfo GetPrimaryKey<T>() where T : class, INotifyPropertyChanged
-        {
-            return GetPrimaryKeys<T>().First();
+            if (PKProperty.Count == 1)
+            {
+                TableKey t = new TableKey();
+                t.PropertyInfo = PKProperty[0];
+                return t;
+            }
+            else
+            {
+                TableMultipleKey mt = new TableMultipleKey();
+                mt.AddKeys(PKProperty);
+                return mt;
+            }
+
         }
     }
 }

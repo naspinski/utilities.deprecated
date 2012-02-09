@@ -76,9 +76,10 @@
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="FileStreamSave.cs" />
     <Compile Include="IQueryableSearch.cs" />
-    <Compile Include="LinqToSql.cs" />
+    <Compile Include="LinqToDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConversions.cs" />
+    <Compile Include="TableKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
