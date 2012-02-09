@@ -20,18 +20,10 @@ namespace Naspinski.Utilities
         /// <returns>T</returns>
         public static T Get<T>(this DataContext dataContext, Dictionary<string, string> primaryKey) where T : class, INotifyPropertyChanged
         {
-            List<PropertyInfo> keys = GetPrimaryKeys<T>();
-            if (keys.Count > 1)
-            {
                 List<string> where = new List<string>();
-                foreach (PropertyInfo info in keys.ToArray())
+                foreach (PropertyInfo info in GetPrimaryKeys<T>().ToArray())
                     where.Add(info.Name + ".Equals(" + primaryKey[info.Name] + ")");
                 return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray())).FirstOrDefault();
-            }
-
-            if (GetPrimaryKey<T>().PropertyType != primaryKey.GetType())
-                throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key of Table is of Type: " + GetPrimaryKey<T>().PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey.GetType().ToString());
-            return dataContext.GetTable(typeof(T)).Cast<T>().Where(GetPrimaryKey<T>().Name + ".Equals(@0)", primaryKey).FirstOrDefault();
         }
 
         /// <summary>
