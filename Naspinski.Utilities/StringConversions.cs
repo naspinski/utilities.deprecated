@@ -24,13 +24,25 @@ namespace Naspinski.Utilities
         /// <returns>Nullable[T]</returns>
         public static Nullable<T> ToNullable<T>(this string s) where T : struct
         {
-            T? result = null; 
             if (s != null && !string.IsNullOrEmpty(s.Trim())) 
             {
                 TypeConverter converter = TypeDescriptor.GetConverter(typeof(T?)); 
-                result = (T?)converter.ConvertFrom(s); 
+                return (T?)converter.ConvertFrom(s); 
             }
-            return result;
+            return null;
+        }
+
+        /// <summary>
+        /// Converts a string to Type T
+        /// </summary>
+        /// <typeparam name="T">Type to convert to</typeparam>
+        /// <param name="s">string to convert</param>
+        /// <returns>Type T Conversion of s if possible</returns>
+        public static T To<T>(this string s) where T : struct
+        {
+            if (string.IsNullOrEmpty(s)) throw new InvalidCastException("Cannot cast empty/null object to Type " + typeof(T).Name);
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(T?));
+            return (T)converter.ConvertFrom(s);
         }
     }
 }
