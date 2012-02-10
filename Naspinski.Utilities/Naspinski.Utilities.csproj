@@ -74,10 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LinqToSql.cs" />
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="FileStreamSave.cs" />
     <Compile Include="IQueryableSearch.cs" />
-    <Compile Include="LinqToDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConversions.cs" />
     <Compile Include="TableKey.cs" />
