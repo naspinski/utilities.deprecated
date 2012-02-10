@@ -46,22 +46,21 @@ namespace Naspinski.Utilities
         {
             List<string> where = new List<string>();            
             var a = GetPrimaryKey<T>();
-
             if (a.GetType().Name == "TableKey")
             {
                 throw new Exception("Table " + typeof(T).ToString() + " has only 1 key, excepecting multiple composite Keys");
             }
-
+            int i = 0;
             foreach (TableKey tbk in ((TableMultipleKey)a).Keys)
             {
                 if (tbk.PropertyInfo.PropertyType != primaryKey[tbk.PropertyInfo.Name].GetType())
                 {
                     throw new ArgumentException("Primary Key of Table and primaryKey argument are not of the same Type; Primary Key name" + tbk.PropertyInfo.Name + " of Table is of Type: " + tbk.PropertyInfo.PropertyType.ToString() + ", primaryKey argument supplied is of Type: " + primaryKey[tbk.PropertyInfo.Name].GetType().ToString());
                 }
-                where.Add(tbk.PropertyInfo.Name + ".Equals(@" + tbk.PropertyInfo.Name + ")");                
+                where.Add(tbk.PropertyInfo.Name + ".Equals(@" + i + ")");
+                i++;
             }
             return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray()),primaryKey.Select(p=>p.Value).ToArray()).FirstOrDefault();
-
         }
 
 
