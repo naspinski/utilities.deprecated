@@ -42,7 +42,7 @@ namespace Naspinski.Utilities
     /// <summary>
     /// Class for multiple Keys
     /// </summary>            
-    public class TableMultipleKey : IPrimaryKey
+    public class TableCompositeKey : IPrimaryKey
     {
         private List<TableKey> _Keys;
 
