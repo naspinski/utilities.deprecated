@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Naspinski.Utilities
 {
     public static class LinqToSql
-    {
+    { 
         /// <summary>
         /// Universal Get accessor for any Linq-to-SQL DataContext; requires that the table has a PRIMARY KEY NOT NULL
         /// </summary>
@@ -23,7 +23,7 @@ namespace Naspinski.Utilities
             List<string> where = new List<string>();
             var a = GetPrimaryKey<T>();
 
-            if (a.GetType().Name == "TableMultipleKey")
+            if (a.GetType().Name == "TableCompositeKey")
             {
                 throw new Exception("Table " + typeof(T).ToString() + " has only Multiple key, excepecting only 1 key");
             }
@@ -44,14 +44,14 @@ namespace Naspinski.Utilities
         /// <returns>T</returns>
         public static T Get<T>(this DataContext dataContext, Dictionary<string, object> primaryKey) where T : class, INotifyPropertyChanged
         {
-            List<string> where = new List<string>();            
+            List<string> where = new List<string>();
             var a = GetPrimaryKey<T>();
             if (a.GetType().Name == "TableKey")
             {
                 throw new Exception("Table " + typeof(T).ToString() + " has only 1 key, excepecting multiple composite Keys");
             }
             int i = 0;
-            foreach (TableKey tbk in ((TableMultipleKey)a).Keys)
+            foreach (TableKey tbk in ((TableCompositeKey)a).Keys)
             {
                 if (tbk.PropertyInfo.PropertyType != primaryKey[tbk.PropertyInfo.Name].GetType())
                 {
@@ -60,7 +60,7 @@ namespace Naspinski.Utilities
                 where.Add(tbk.PropertyInfo.Name + ".Equals(@" + i + ")");
                 i++;
             }
-            return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray()),primaryKey.Select(p=>p.Value).ToArray()).FirstOrDefault();
+            return dataContext.GetTable(typeof(T)).Cast<T>().Where(string.Join(" AND ", where.ToArray()), primaryKey.Select(p => p.Value).ToArray()).FirstOrDefault();
         }
 
 
@@ -94,11 +94,53 @@ namespace Naspinski.Utilities
             }
             else
             {
-                TableMultipleKey mt = new TableMultipleKey();
+                TableCompositeKey mt = new TableCompositeKey();
                 mt.AddKeys(PKProperty);
                 return mt;
             }
 
+        }
+
+        /// <summary>
+        /// To see if an IPrameryKey is a composite key or not
+        /// </summary>
+        /// <param name="key">IPrimary key to explore</param>
+        /// <returns>True if it is a Composite Key, false if not</returns>
+        public static bool IsCompositeKey(this IPrimaryKey key)
+        {
+            try
+            {
+                TableKey temp = (TableKey)key;
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Returns a single Primary Key for type T, erroring if it is not a single key
+        /// </summary>
+        /// <typeparam name="T">Type you are searching for a single primary key on</typeparam>
+        /// <returns>TableKey with the PropertyInfo of the primary key</returns>
+        public static TableKey GetSinglePrimaryKey<T>() where T : class, INotifyPropertyChanged
+        {
+            IPrimaryKey key = GetPrimaryKey<T>();
+            if (!key.IsCompositeKey()) return (TableKey)key;
+            throw new InvalidOperationException(typeof(T).GetType().Name + " does not have a single Primary Key");
+        }
+
+        /// <summary>
+        /// Returns a composite key for type T, erroring if it is not a composite key
+        /// </summary>
+        /// <typeparam name="T">Type you are searching for a composite key on</typeparam>
+        /// <returns>TableCompositeKey with a PropertyInfo[] array Keys</returns>
+        public static TableCompositeKey GetCompositeKey<T>() where T : class, INotifyPropertyChanged
+        {
+            IPrimaryKey key = GetPrimaryKey<T>();
+            if (key.IsCompositeKey()) return (TableCompositeKey)key;
+            throw new InvalidOperationException(typeof(T).GetType().Name + " does not have a composite Key");
         }
     }
 }
