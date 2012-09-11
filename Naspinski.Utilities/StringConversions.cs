@@ -31,13 +31,14 @@ namespace Naspinski.Utilities
             while(s.IndexOfAny(msSpecialCharacters) > -1 || s.Length < length)
             {
                 s = s.RemoveCharacters(msSpecialCharacters);
-                fillerBuffer = s.Length - length;
-                if(fillerBuffer + fillerIndex > filler.Length)
+                fillerBuffer =length - s.Length;
+                if((fillerBuffer + fillerIndex) > filler.Length)
                 {   // filler would out-of-bounds, get a new one
                     filler = Membership.GeneratePassword(length, 0);
                     fillerIndex = 0;
                 }
                 s += filler.Substring(fillerIndex, fillerBuffer);
+                fillerIndex += fillerBuffer;
             }
             return s;
         }
@@ -50,7 +51,7 @@ namespace Naspinski.Utilities
         /// <returns>string with characters removed</returns>
         public static string RemoveCharacters(this string s, char[] characters)
         {
-            return s.ToCharArray().Where(c => !characters.Contains(c)).ToString();
+            return new string(s.ToCharArray().Where(c => !characters.Contains(c)).ToArray());
         }
 
         /// <summary>
