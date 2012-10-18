@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Web.Security;
-using System.Text;
 using System.Linq;
+using System.Globalization;
 
 namespace Naspinski.Utilities
 {
-    public static class StringConversions
+    public class Strings
     {
         /// <summary>
         /// Generated a random string
@@ -16,23 +16,21 @@ namespace Naspinski.Utilities
         /// <param name="isOnlyAlphaNumeric">if it is true, there will be no special characters</param>
         /// <param name="minSpecialCharacters">if they are required, you can specify a minimum</param>
         /// <returns>random string</returns>
-        public static string ToRandomString(this string s, int length, bool isOnlyAlphaNumeric = true, int minSpecialCharacters = 1)
+        public static string Random(int length, int minSpecialCharacters = 0)
         {
-            if (isOnlyAlphaNumeric) minSpecialCharacters = 0;
-            s = Membership.GeneratePassword(length, minSpecialCharacters);
+            bool isOnlyAlphaNumeric = minSpecialCharacters == 0;
+            string s = Membership.GeneratePassword(length, minSpecialCharacters);
             if (!isOnlyAlphaNumeric) return s;
-            
 
             char[] msSpecialCharacters = "!@#$%^&*()_-+=[{]};:<>|./?".ToCharArray();
             string filler = Membership.GeneratePassword(length, 0);
-            int fillerIndex = 0;
-            int fillerBuffer = 0;
+            int fillerIndex = 0, fillerBuffer;
 
-            while(s.IndexOfAny(msSpecialCharacters) > -1 || s.Length < length)
+            while (s.IndexOfAny(msSpecialCharacters) > -1 || s.Length < length)
             {
                 s = s.RemoveCharacters(msSpecialCharacters);
-                fillerBuffer =length - s.Length;
-                if((fillerBuffer + fillerIndex) > filler.Length)
+                fillerBuffer = length - s.Length;
+                if ((fillerBuffer + fillerIndex) > filler.Length)
                 {   // filler would out-of-bounds, get a new one
                     filler = Membership.GeneratePassword(length, 0);
                     fillerIndex = 0;
@@ -41,8 +39,11 @@ namespace Naspinski.Utilities
                 fillerIndex += fillerBuffer;
             }
             return s;
-        }
+        }   
+    }
 
+    public static class StringConversions
+    {
         /// <summary>
         /// Removes all characters from the string s
         /// </summary>
@@ -51,6 +52,7 @@ namespace Naspinski.Utilities
         /// <returns>string with characters removed</returns>
         public static string RemoveCharacters(this string s, char[] characters)
         {
+            if (string.IsNullOrEmpty(s)) return s;
             return new string(s.ToCharArray().Where(c => !characters.Contains(c)).ToArray());
         }
 
@@ -59,9 +61,17 @@ namespace Naspinski.Utilities
         /// </summary>
         /// <typeparam name="T">enum Type to convert to</typeparam>
         /// <param name="s">string to convert</param>
+        /// <param name="convertToTitleCase">Will ONLY convert the first letter to capital and not the rest, be careful with CamelCasing</param>
         /// <returns>enum of Type T</returns>
-        public static T ToEnum<T>(this string s)
+        public static T ToEnum<T>(this string s, bool convertToTitleCase = false)
         {
+            if (convertToTitleCase)
+            {
+                //use en-US as it is C# recommended
+                CultureInfo cultureInfo = CultureInfo.GetCultureInfo("en-US");
+                TextInfo textInfo = cultureInfo.TextInfo;
+                s = textInfo.ToTitleCase(s.ToLower());
+            }
             return (T)Enum.Parse(typeof(T), s);
         }
 
