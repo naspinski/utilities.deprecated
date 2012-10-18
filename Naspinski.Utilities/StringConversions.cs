@@ -61,18 +61,20 @@ namespace Naspinski.Utilities
         /// </summary>
         /// <typeparam name="T">enum Type to convert to</typeparam>
         /// <param name="s">string to convert</param>
-        /// <param name="convertToTitleCase">Will ONLY convert the first letter to capital and not the rest, be careful with CamelCasing</param>
         /// <returns>enum of Type T</returns>
-        public static T ToEnum<T>(this string s, bool convertToTitleCase = false)
+        public static T ToEnum<T>(this string s)
         {
-            if (convertToTitleCase)
+            try
             {
-                //use en-US as it is C# recommended
+                return (T)Enum.Parse(typeof(T), s);
+            }
+            catch //tries to capitalize the first letter
+            {
                 CultureInfo cultureInfo = CultureInfo.GetCultureInfo("en-US");
                 TextInfo textInfo = cultureInfo.TextInfo;
                 s = textInfo.ToTitleCase(s.ToLower());
+                return (T)Enum.Parse(typeof(T), s);
             }
-            return (T)Enum.Parse(typeof(T), s);
         }
 
         /// <summary>
