@@ -15,6 +15,9 @@ namespace Naspinski.Utilities.Tests
             var url = Url.Combine("http://naspinski.net/", "directory/", "////image.png");
             var url2 = new Uri("http://naspinski.net/directory/image.png");
             Assert.AreEqual(url, url2);
+
+            url = Url.Combine("http://naspinski.net/", "directory/image.png");
+            Assert.AreEqual(url, url2);
         }
 
         [TestMethod]
