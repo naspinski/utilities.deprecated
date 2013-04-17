@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naspinski.Utilities", "Naspinski.Utilities\Naspinski.Utilities.csproj", "{70E389E9-3A99-4A1F-A45C-369A76B7B57A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naspinski.Utilities.Tests", "Naspinski.Utilities.Tests\Naspinski.Utilities.Tests.csproj", "{E87AC3E6-CDB8-44E6-A6C3-9BE89E5D8911}"
@@ -13,6 +13,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Naspinski.Utilities\\Naspinski.Utilities.csproj
+		SccProjectName1 = Naspinski.Utilities
+		SccLocalPath1 = Naspinski.Utilities
+		SccProjectUniqueName2 = Naspinski.Utilities.Tests\\Naspinski.Utilities.Tests.csproj
+		SccProjectName2 = Naspinski.Utilities.Tests
+		SccLocalPath2 = Naspinski.Utilities.Tests
+	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Naspinski.Utilities.vsmdi
 	EndGlobalSection

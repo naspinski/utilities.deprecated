@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Web.Security;
 using System.Linq;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Naspinski.Utilities
 {
@@ -104,6 +105,16 @@ namespace Naspinski.Utilities
             if (string.IsNullOrEmpty(s)) throw new InvalidCastException("Cannot cast empty/null object to Type " + typeof(T).Name);
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(T?));
             return (T)converter.ConvertFrom(s);
+        }
+
+        /// <summary>
+        /// Splits a CamelCase word into a human readable - deals effectively with most abbreviations
+        /// </summary>
+        /// <param name="str">CamelCase String</param>
+        /// <returns>'Humanized' string</returns>
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
         }
     }
 }

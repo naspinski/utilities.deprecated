@@ -29,5 +29,15 @@ namespace Naspinski.Utilities.Tests
         {
             var x = "abcd".ToEnum<TestEnums>();
         }
+
+        [TestMethod]
+        public void SplitCamelCase()
+        {
+            string cc1 = "StanRulesTheUSAF";
+            Assert.AreEqual(cc1.SplitCamelCase(), "Stan Rules The USAF");
+
+            string cc2 = "testTestTest";
+            Assert.AreEqual(cc2.SplitCamelCase(), "test Test Test");
+        }
     }
 }
