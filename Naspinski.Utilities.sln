@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naspinski.Utilities.Nuget", "Naspinski.Utilities.Nuget\Naspinski.Utilities.Nuget.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -24,6 +26,9 @@ Global
 		SccProjectUniqueName2 = Naspinski.Utilities.Tests\\Naspinski.Utilities.Tests.csproj
 		SccProjectName2 = Naspinski.Utilities.Tests
 		SccLocalPath2 = Naspinski.Utilities.Tests
+		SccProjectUniqueName3 = Naspinski.Utilities.Nuget\\Naspinski.Utilities.Nuget.csproj
+		SccProjectName3 = Naspinski.Utilities.Nuget
+		SccLocalPath3 = Naspinski.Utilities.Nuget
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Naspinski.Utilities.vsmdi
@@ -41,6 +46,10 @@ Global
 		{E87AC3E6-CDB8-44E6-A6C3-9BE89E5D8911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E87AC3E6-CDB8-44E6-A6C3-9BE89E5D8911}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E87AC3E6-CDB8-44E6-A6C3-9BE89E5D8911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

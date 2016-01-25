@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Naspinski.Utilities</id>
+    <version>1.0.10</version>
+    <title>Naspinski.Utilities</title>
+    <authors>Stan Naspinski</authors>
+    <owners>Stan Naspinski</owners>
+    <licenseUrl>http://naspinski.codeplex.com/license</licenseUrl>
+    <projectUrl>http://naspinski.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Utilities class for .Net including Dynamic property getters/setters, automatic IQueryable searching, LinqToSql shortcuts, FileStream shortcuts, String extensions and more.</description>
+    <summary>Utilites class for .Net</summary>
+    <language>en-US</language>
+    <tags>linq c# .net</tags>
+    <dependencies>
+      <dependency id="System.Linq.Dynamic" />
+    </dependencies>
+    <references>
+      <reference file="Naspinski.Utilities.dll" />
+    </references>
+  </metadata>
+</package>
