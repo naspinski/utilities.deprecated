@@ -21,5 +21,17 @@ namespace Naspinski.Utilities
                 throw new Exception("Property [" + propertyName + "] in Object [" + o.GetType().ToString() + "] does not allow writes");
             pi.SetValue(o, newValue, null);
         }
+
+        /// <summary>
+        /// Get property based on string name and Object type
+        /// </summary>
+        /// <typeparam name="T">type of object</typeparam>
+        /// <param name="o">object to grab property from</param>
+        /// <param name="propertyName">name of property</param>
+        /// <returns>property value</returns>
+        public static T GetPropertyValue<T>(this object o, string propertyName)
+        {
+            return (T)o.GetType().GetProperty(propertyName).GetValue(o, null);
+        }
     }
 }

@@ -39,5 +39,23 @@ namespace Naspinski.Utilities.Tests
             string cc2 = "testTestTest";
             Assert.AreEqual(cc2.SplitCamelCase(), "test Test Test");
         }
+
+        [TestMethod]
+        public void Between()
+        {
+            var str = "<p><span style=\"text-decoration:underline;font-size:x-large;\"><strong>[[EventName]]</strong></span></p><p>[[Exclusivity_Window]]</p><ul><li>asdfkhjasl jfhasl fjhasljf halsjfdh alfhj lad</li></ul><p>BLA BLA BLAkj</p>";
+            var between = str.Between("[[", "]]").ToArray();
+
+            Assert.AreEqual(2, between.Length);
+            Assert.AreEqual(between.First(), "EventName");
+            Assert.AreEqual(between.Last(), "Exclusivity_Window");
+
+            str = "((a)a)))bbbb(((cccc)()()((as))df((d))asdfadf";
+            between = str.Between("((", "))").ToArray();
+            Assert.AreEqual(between.Length, 3);
+            Assert.AreEqual(between[0], "a)a");
+            Assert.AreEqual(between[1], "(cccc)()()((as");
+            Assert.AreEqual(between[2], "d");
+        }
     }
 }

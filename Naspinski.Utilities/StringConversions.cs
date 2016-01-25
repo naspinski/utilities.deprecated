@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Security;
 using System.Linq;
@@ -115,6 +116,49 @@ namespace Naspinski.Utilities
         public static string SplitCamelCase(this string str)
         {
             return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
+        }
+
+        /// <summary>
+        /// Gets all instances of strings between two delimiters
+        /// </summary>
+        /// <param name="input">string to search</param>
+        /// <param name="left">left delimiter</param>
+        /// <param name="right">right delimiter</param>
+        /// <returns>List of strings that are located between delimiters</returns>
+        public static List<string> Between(this string input, string left, string right)
+        {
+            var pattern = "(" + Regex.Escape(left) + ")|(" + Regex.Escape(right) + ")";
+
+            var found = new List<string>();
+
+            var split = Regex.Split(input, pattern);
+            var leftSide = false;
+            var str = string.Empty;
+
+            foreach (var chunk in split)
+            {
+                if (leftSide && chunk != right)
+                {
+                    str += chunk;
+                }
+
+                if (chunk == left)
+                {
+                    leftSide = true;
+                }
+
+                if (chunk == right)
+                {
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        found.Add(str);
+                    }
+                    str = string.Empty;
+                    leftSide = false;
+                }
+            }
+
+            return found;
         }
     }
 }
