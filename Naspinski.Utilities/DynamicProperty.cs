@@ -23,7 +23,7 @@ namespace Naspinski.Utilities
         }
 
         /// <summary>
-        /// Get property based on string name and Object type
+        /// Get typed  property based on string name and Object type
         /// </summary>
         /// <typeparam name="T">type of object</typeparam>
         /// <param name="o">object to grab property from</param>
@@ -31,7 +31,18 @@ namespace Naspinski.Utilities
         /// <returns>property value</returns>
         public static T GetPropertyValue<T>(this object o, string propertyName)
         {
-            return (T)o.GetType().GetProperty(propertyName).GetValue(o, null);
+            return (T) o.GetPropertyValue(propertyName);
+        }
+
+        /// <summary>
+        /// Get property based on string name
+        /// </summary>
+        /// <param name="o">object to grab property from</param>
+        /// <param name="propertyName">name of property</param>
+        /// <returns>property value</returns>
+        public static object GetPropertyValue(this object o, string propertyName)
+        {
+            return o.GetType().GetProperty(propertyName).GetValue(o, null);
         }
     }
 }
