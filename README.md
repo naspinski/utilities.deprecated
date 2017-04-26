@@ -75,3 +75,22 @@ void GetPropertyValue(string propertyName)
 object isAdmin = someObject.GetPropertyValue("IsAdmin");
 object name = someObject.GetPropertyValue("Name");
 ```
+
+## EnumUtilities
+Simple Enum utilities
+
+
+### GetValues&lt;T&gt;()
+
+*Details:*
+* Gets a collection of enums (useful for looping)
+* ```T : enum```
+
+*Usage:*
+```
+enum Tester { Test = 1, Bla = 5 }
+
+// loop through them
+foreach(var e in EnumUtilities.GetValues<Tester>())
+    System.PrintLine(e.ToString() + " = " + (int)e);
+```
