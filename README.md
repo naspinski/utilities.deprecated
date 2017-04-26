@@ -11,7 +11,7 @@ Open your Package Manager and search for naspinski.utilities or type the followi
 
 ## Utilities
 
-### DynamicProperty
+### [DynamicProperty](https://github.com/naspinski/utilities/blob/master/README.md#dynamicproperty-1)
 Change a property value at run time without knowing the property ahead of time
 
 ### IQueryableSearch
