@@ -33,11 +33,11 @@ Convert strings to things you often need to convert them to... easily
 * *ToEnum* turns a string into an Enum... simple!
 * *ToNullable* turns a string into any Nullable Type you want
 
-## Documentation
-### DynamicProperty
+# Documentation
+## DynamicProperty
 Change a Property value at run-time without knowing which Property at compile-time
 
-**SetPropertyValue(string, object)**
+### SetPropertyValue(string, object)
 ```
 void SetPropertyValue(string propertyName, object newValue)
 ```
@@ -51,7 +51,7 @@ someObject.SetPropertyValue("Admin", false);
 someObject.SetPropertyValue("Name", "Stan");
 ```
 
-**GetPropertyValue&lt;T&gt;(string)**
+### GetPropertyValue&lt;T&gt;(string)
 ```
 void GetPropertyValue<T>(string propertyName)
 ```
@@ -63,7 +63,7 @@ void GetPropertyValue<T>(string propertyName)
 bool isAdmin = someObject.GetPropertyValue<bool>("IsAdmin");
 string name = someObject.GetPropertyValue<string>("Name");
 ```
-**GetPropertyValue(string)**
+### GetPropertyValue(string)
 ```
 void GetPropertyValue(string propertyName)
 ```
