@@ -1,0 +1,198 @@
+# IQueryableSearch
+Versatile 'Search-All' Extension for IQueryable objects
+----
+## Search()
+
+### Notes about all overloads
+* When searching strings, the search method uses _Contains()_ and not _Equals()_ unless specified (searching 'bc' would return true for 'abcd')
+* If **{"types_to_explore"}** is not specified, the search will only search the immediate object and will not traverse through embedded properties
+* If **keywords** is of Type _object_ it can take in any object for search, and will only be compared against properties of their Type, ie: if you search for string "3" and there is a property with value of int '3', it will not be returned
+
+### Overload
+{code:c#}
+IQueryable Search(object[]() keywords)
+{code:c#}
+**Details:**
+* Search an IQueryable's properties for the **keywords** (objects)
+* **keywords** can be of any Type, will only compare against properties that match each keyword's Type
+* this does not iterate through levels of an object
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new object[]() { "Leather", "2-Door" });
+
+//build keywords for a more advanced search, against different multiple Types in an object
+object[]()() keywords = new object[]()() { 1, 2, 3, new Engine() { Cylinders = 8 }, "Leather" };
+var results = Cars.Search(keywords);
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(object[]()() keywords, Type[]()() types_to_explore)
+{code:c#}
+**Details:**
+* Search an IQueryable's properties for the **keywords** (objects)
+* **keywords** can be of any Type, will only compare against properties that match each keyword's Type
+* this iterates down through any objects specified in **{"types_to_explore"}**
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new object[]()() { "Leather", "2-Door" }, new Type[]()() { typeof(Engine) });
+
+//build keywords for a more advanced search, against different multiple Types in an object
+object[]() keywords = new object { "V8", 350 };
+Type[]() explore = new Type { typeof(Engine), typeof(Size) };
+var results = Cars.Search(keywords, explore);
+
+//this will search each Car for the string 'V8' and int '350' as well as each Car.Engine and Car.Engine.Size for 'V8' and '350' as well
+//any combination that might be included of these types will be searched, ie: Car.Size.Engine.Size, Car.Engine.Size.Size if they were to exist
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(string[]()() properties_to_search, object[]()() keywords)
+{code:c#}
+**Details:**
+* Search an IQueryable's properties for the **keywords** (objects), _only_ including the properties specified in **{"properties_to_search"}**
+* **keywords** can be of any Type, will only compare against properties that match each keyword's Type included in **{"properties_to_search"}**
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new string[]()() { "Seats" }, new object[]()() { 2 });
+
+//build keywords for a more advanced search, against different properites
+string[]()() properties = new string[]()() { "Seats", "AC" }
+object[]() keywords = new object { 2, true };
+var results = Cars.Search(properties, keywords);
+
+//this will only search the 2 properties 'Seats' (which is an int) and 'AC' which is a bool
+//since the 2 objects specified are of Type int and boot will search for Cars where 'Cars.Seats == 2 && AC == true'
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(string[]()() properties_to_search, string[]()() keywords)
+{code:c#}
+**Details:**
+* Basic single level string only search
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new string[]()() { "Details" }, new string[]()() { "fast", "budget" });
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(Type[]()() types_to_explore, object[]()() keywords)
+{code:c#}
+**Details:**
+* This does _not_ iterate down into any nested objects
+* Recommended you don't use this method as it is very limited, it is mostly used internally
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new Type[]()() { typeof(string) }, new object[]()() { "Leather", "2-Door" });
+
+//showing a more detailed example to show some limitations of this method
+Type[]() explore = new Type { typeof(string), typeof(Engine) };
+object[]() keywords = new object { "V8", 350 };
+var results = Cars.Search(explore, keywords);
+
+//note that is will **only** search the first level of car, it will **not** search Car.Engine at all
+//if you wanted to compare against an Engine, you would have to add new Engine(){ ... } to your keywords
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(string[]()()() properties_to_search, object[]()()() keywords, Type[]()()() types_to_explore)
+{code:c#}
+**Details:**
+* The same as {{ IQueryable Search(object[]()() keywords, Type[]()() types_to_explore) }} but limited to properties in **{"properties_to_search"}**
+* **keywords** can be of any Type, will only compare against properties that match each keyword's Type
+* this iterates down through any objects specified in **{"types_to_explore"}**
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new string[]()()() { "Details", "Power" }, new object[]()()() { "Leather", "2-Door" }, new Type[]()()() { typeof(Engine) });
+
+//build keywords for a more advanced search, against different multiple Types in an object
+string[]()() properties = new string[]()() { "Details", "Power" };
+object[]() keywords = new object { "V8", 350 };
+Type[]() explore = new Type { typeof(Engine), typeof(Size) };
+var results = Cars.Search(keywords, explore);
+
+//this will search each Car for the string 'V8' and int '350' in fields named "Details" and "Engine"
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(string[]()() properties_to_search, string[]()() keywords)
+{code:c#}
+**Details:**
+* Basic single level string only search
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new string[]()() { "Details" }, new string[]()() { "fast", "budget" });
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(string[]()() properties_to_search, string[]()() keywords, 
+    IQueryableSearch.StringSearchType string_search_type)
+{code:c#}
+**Details:**
+* Basic single level string only search
+* If **{"string_search_type"}** is set to _Equals_ it will only count exact matches (case matters), otherwise it behaves the same as **{{ IQueryable Search(string[]()() properties_to_search, string[]()() keywords) }}**
+* Generally not used as this extension is for more dynamic searches, but available nonetheless
+**Usage:**
+{code:c#}
+//simple search
+var simpleResults = Cars.Search(new string[]()() { "Details" }, new string[]()() { "fast", "budget" },
+    Naspinski.Utilities.IQueryableSearch.StringSearchType.Equals);
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(Dictionary<string, Type> properties_to_search, object[]() keywords)
+{code:c#}
+**Details:**
+* Recommended you don't use this method as it adds extra work that can be handled by Reflection
+* Only use _if_ :
+	* You have multiple nested properties with the same name, different type _and_
+	* You don't want to search them both _and_
+	* You want to do a multi-level search
+**Usage:**
+{code:c#}
+Dictionary<string, Type> properties = new Dictionary<string, Type>() { { "name", typeof(string) } };
+object[]()() keywords = new object[]()() { "Corvette" };
+var results = Cars.Search(properties, keywords);
+{code:c#}
+
+
+### Overload
+{code:c#}
+IQueryable Search(Dictionary<string, Type> properties_to_search, object[]() keywords,
+    IQueryableSearch.StringSearchType string_search_type)
+{code:c#}
+**Details:**
+* Recommended you don't use this method as it adds extra work that can be handled by Reflection
+* If **{"string_search_type"}** is set to _Equals_ it will only count exact matches (case matters), otherwise it behaves the same as **{{ IQueryable Search(Dictionary<string, Type> properties_to_search, object[]() keywords) }}**
+* Only use _if_ :
+	* You have multiple nested properties with the same name, different type _and_
+	* You don't want to search them both _and_
+	* You want to do a multi-level search
+**Usage:**
+{code:c#}
+Dictionary<string, Type> properties = new Dictionary<string, Type>() { { "name", typeof(string) } };
+object[]()() keywords = new object[]()() { "Corvette" };
+var results = Cars.Search(properties, keywords, Naspinski.Utilities.IQueryableSearch.StringSearchType.Equals);
+{code:c#}

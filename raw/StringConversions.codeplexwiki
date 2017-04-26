@@ -1,0 +1,112 @@
+! StringConversions
+Turns string into other useful stuff without all the code
+----
+!! RemoveCharacters()
+{code:c#}
+string RemoveCharacters(char[] characters)
+{code:c#}
+*Details:*
+* Removes all instances of provided characters from the string
+*Usage:*
+{code:c#}
+string s = "abcdefgaaaaa";
+
+//remove some characters
+s = s.RemoveCharacters(new[] { 'a', 'b' });
+
+// s is now "cdefg" 
+{code:c#}
+----
+!! SplitCamelCase()
+{code:c#}
+string SplitCamelCase()
+{code:c#}
+*Details:*
+* Splits a CamelCase string into a human readable string
+* Deals with Acronyms pretty well
+*Usage:*
+{code:c#}
+string s = "StanRulesTheUSA";
+string sReadable = s.SplitCamelCase();
+
+// sReadable is now "Stan Rules The USA"
+{code:c#}
+----
+!! ToEnum()
+{code:c#}
+T ToEnum<T>()
+{code:c#}
+*Details:*
+* Attempts to convert input string into an enum of Type *T*
+* If string is not a match for the enum *T*, a *ArgumentException* is thrown
+* If conversion fails, it will try to capitalize the fist letter to go with .Net naming conventions, i.e.: "abc" -> "Abc"
+*Usage:*
+{code:c#}
+//showing what the enum looks like:
+public enum Cars { "Corvette", "Pinto" };
+
+//convert a string to the enum
+Cars car = "Corvette".ToEnum<Cars>();
+
+Debug.Assert(car == Cars.Corvette);
+{code:c#}----
+!! Strings.Random()
+{code:c#}
+string Strings.Random(int length, *int minSpecialCharacters)
+{code:c#}
+*Details:*
+* Creates a random string
+* if *minSpecialCharacters* is not specified, it will produce a random string that is _alphanumeric only_
+*Usage:*
+{code:c#}
+string s = Strings.Random(10);
+// s = mPbsKC968r
+
+s = Strings.Random(10, 3);
+// s = 4(8VU_GyS|
+// or more special characters like: >=irRG+1a!
+{code:c#}
+!! ToEnum()
+{code:c#}
+T ToEnum<T>()
+{code:c#}
+*Details:*
+* Attempts to convert input string into an enum of Type *T*
+* If string is not a match for the enum *T*, a *ArgumentException* is thrown
+* If conversion fails, it will try to capitalize the fist letter to go with .Net naming conventions, i.e.: "abc" -> "Abc"
+*Usage:*
+{code:c#}
+//showing what the enum looks like:
+public enum Cars { "Corvette", "Pinto" };
+
+//convert a string to the enum
+Cars car = "Corvette".ToEnum<Cars>();
+
+Debug.Assert(car == Cars.Corvette);
+{code:c#}
+----
+!! To<>()
+{code:c#}
+T To<T>()
+{code:c#}
+*Details:*
+* Attempts to convert input into a Type *T*
+* *{{ T : struct }}*
+*Usage:*
+{code:c#}
+double eight = "8".To<double>();
+{code:c#}
+----
+!! ToNullable<>()
+{code:c#}
+Nullable<T> ToNullable<T>()
+{code:c#}
+*Details:*
+* Attempts to convert input into a nullable version of Type *T*
+* *{{ T : struct }}*
+*Usage:*
+{code:c#}
+int? eight = "8".ToNullable<int>();
+decimal? twelve = "12".ToNullable<decimal>();
+double? nullDouble = "".ToNullable<double>(); //outputs null
+{code:c#}

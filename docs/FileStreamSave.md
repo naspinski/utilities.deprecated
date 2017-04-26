@@ -1,0 +1,30 @@
+# FileStreamSave
+Extension for simply saving a FileStream
+----
+## Save()
+{code:c#}
+string Save(string path, (optional)bool overwrite)
+{code:c#}
+**Details:**
+* Saves FileStream to **path** then returns the saved file name
+* **overwrite** defaults to _false_ if it is not specified
+* if **overwrite** is _false_ or omitted and the file already exists, it will append a counter to the file name; _file.txt_, _file[1](1).txt_, _file[2](2).txt_, etc.
+* if **overwrite** is _true_ it will overwrite any existing files
+* if the folder you are trying to write to does not exist, it will be automatically made
+**Usage:**
+{code:c#}
+//getting a FileStream
+FileStream stream = File.OpenRead(@"C:\file.txt");
+
+//save it to a new directory
+string fileName = stream.Save(@"C:\new_directory\file.txt");
+//fileName now equals 'file.txt'
+
+//save it again
+string fileName = stream.Save(@"C:\new_directory\file.txt");
+//fileName now equals 'file[1](1).txt' as overwrite defaults to false
+//now there are 2 files in that folder: file.txt & file[1](1).txt
+
+//overwrite the original file
+stream.Save(@"C:\new_directory\file.txt", true);
+{code:c#}
