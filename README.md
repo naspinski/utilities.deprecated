@@ -11,7 +11,7 @@ Open your Package Manager and search for naspinski.utilities or type the followi
 
 ## Utilities
 
-$$$ DynamicProperty
+### DynamicProperty
 Change a property value at run time without knowing the property ahead of time
 
 ### IQueryableSearch
