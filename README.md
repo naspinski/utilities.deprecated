@@ -25,7 +25,7 @@ The 'quick search' is a great tool. Google has shown us that searching with one 
 ### LinqToSql [Deprecated]
 Universal Get Extensions for your DataContexts, Find the Primary Key of any table, and more
 
-### FileStreamSave
+### [FileStreamSave](https://github.com/naspinski/utilities/blob/master/README.md#filestreamsave-1)
 Simple extension to save a FileStream to disk, option to avoid overwriting will automatically update the filename to avoid overwriting
 
 ### StringConversions
