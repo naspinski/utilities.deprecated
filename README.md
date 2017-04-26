@@ -14,6 +14,9 @@ Open your Package Manager and search for naspinski.utilities or type the followi
 ### [DynamicProperty](https://github.com/naspinski/utilities/blob/master/README.md#dynamicproperty-1)
 Change a property value at run time without knowing the property ahead of time
 
+### [EnumUtilities](https://github.com/naspinski/utilities/blob/master/README.md#enumutilities)
+Enumerate through enums easily
+
 ### IQueryableSearch
 Search all/any properties of an IQueryable with one single search.
 
@@ -79,7 +82,6 @@ object name = someObject.GetPropertyValue("Name");
 ## EnumUtilities
 Simple Enum utilities
 
-
 ### GetValues&lt;T&gt;()
 
 *Details:*
@@ -93,4 +95,37 @@ enum Tester { Test = 1, Bla = 5 }
 // loop through them
 foreach(var e in EnumUtilities.GetValues<Tester>())
     System.PrintLine(e.ToString() + " = " + (int)e);
+```
+
+## FileStreamSave
+Extension for simply saving a FileStream
+
+### Save()
+```
+string Save(string path, (optional)bool overwrite)
+```
+
+*Details:*
+* Saves FileStream to *path* then returns the saved file name
+* *overwrite* defaults to **false** if it is not specified
+* if *overwrite* is **false** or omitted and the file already exists, it will append a counter to the file name; **file.txt**, **file[1].txt**, **file[2].txt**, etc.
+* if *overwrite* is **true** it will overwrite any existing files
+* if the folder you are trying to write to does not exist, it will be automatically made
+
+*Usage:*
+```
+//getting a FileStream
+FileStream stream = File.OpenRead(@"C:\file.txt");
+
+//save it to a new directory
+string fileName = stream.Save(@"C:\new_directory\file.txt");
+//fileName now equals 'file.txt'
+
+//save it again
+string fileName = stream.Save(@"C:\new_directory\file.txt");
+//fileName now equals 'file[1].txt' as overwrite defaults to false
+//now there are 2 files in that folder: file.txt & file[1].txt
+
+//overwrite the original file
+stream.Save(@"C:\new_directory\file.txt", true);
 ```
