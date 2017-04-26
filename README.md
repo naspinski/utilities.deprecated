@@ -19,7 +19,7 @@ Search all/any properties of an IQueryable with one single search.
 
 The 'quick search' is a great tool. Google has shown us that searching with one single, universal search field is the way that people prefer to search. Anyone who has worked with Linq for any amount of time knows this is possible, but it requires a lot of hard-coding and a long jumble of 'where' statements. This class will allow you to run a universal 'google-like' search on any IQueryable.
 
-### LinqToSql
+### LinqToSql [Deprecated]
 Universal Get Extensions for your DataContexts, Find the Primary Key of any table, and more
 
 ### FileStreamSave
@@ -32,3 +32,46 @@ Convert strings to things you often need to convert them to... easily
 * *To* turns a string into any Type
 * *ToEnum* turns a string into an Enum... simple!
 * *ToNullable* turns a string into any Nullable Type you want
+
+## Documentation
+### DynamicProperty
+Change a Property value at run-time without knowing which Property at compile-time
+
+**SetPropertyValue(string, object)**
+```
+void SetPropertyValue(string propertyName, object newValue)
+```
+*Details:*
+* Change the Property *propertyName* of a given Object to the value *newValue*
+* Will throw an Exception if the Property is not present
+* Will throw an Exception if the Property does not allow writes
+*Usage:*
+```
+someObject.SetPropertyValue("Admin", false);
+someObject.SetPropertyValue("Name", "Stan");
+```
+
+**GetPropertyValue&lt;T&gt;(string)**
+```
+void GetPropertyValue<T>(string propertyName)
+```
+*Details:*
+* Get the Property *propertyName* of a given Object and cast to T
+* Will throw an Exception if the Property is not present
+*Usage:*
+```
+bool isAdmin = someObject.GetPropertyValue<bool>("IsAdmin");
+string name = someObject.GetPropertyValue<string>("Name");
+```
+**GetPropertyValue(string)**
+```
+void GetPropertyValue(string propertyName)
+```
+*Details:*
+* Get the Property *propertyName* of a given Object as an Object
+* Will throw an Exception if the Property is not present
+*Usage:*
+```
+object isAdmin = someObject.GetPropertyValue("IsAdmin");
+object name = someObject.GetPropertyValue("Name");
+```
