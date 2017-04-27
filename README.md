@@ -129,3 +129,132 @@ string fileName = stream.Save(@"C:\new_directory\file.txt");
 //overwrite the original file
 stream.Save(@"C:\new_directory\file.txt", true);
 ```
+
+## StringConversions
+Turns string into other useful stuff without all the code
+
+### RemoveCharacters()
+```
+string RemoveCharacters(char[] characters)
+111
+*Details:*
+* Removes all instances of provided characters from the string
+
+*Usage:*
+```
+string s = "abcdefgaaaaa";
+
+//remove some characters
+s = s.RemoveCharacters(new[] { 'a', 'b' });
+
+// s is now "cdefg" 
+```
+ 
+### SplitCamelCase()
+
+```
+string SplitCamelCase()
+```
+
+*Details:*
+* Splits a CamelCase string into a human readable string
+* Deals with Acronyms pretty well
+
+*Usage:*
+```
+string s = "StanRulesTheUSA";
+string sReadable = s.SplitCamelCase();
+
+// sReadable is now "Stan Rules The USA"
+```
+
+### ToEnum&lt;T&gt;()
+```
+T ToEnum<T>()
+```
+
+*Details:*
+* Attempts to convert input string into an enum of Type *T*
+* If string is not a match for the enum *T*, a *ArgumentException* is thrown
+* If conversion fails, it will try to capitalize the fist letter to go with .Net naming conventions, i.e.: "abc" -> "Abc"
+
+*Usage:*
+```
+//showing what the enum looks like:
+public enum Cars { "Corvette", "Pinto" };
+
+//convert a string to the enum
+Cars car = "Corvette".ToEnum<Cars>();
+
+Debug.Assert(car == Cars.Corvette);
+```
+
+### Strings.Random(int, *int)
+
+```
+string Strings.Random(int length, *int minSpecialCharacters)
+```
+
+*Details:*
+* Creates a random string
+* if *minSpecialCharacters* is not specified, it will produce a random string that is *alphanumeric only*
+
+*Usage:*
+```
+string s = Strings.Random(10);
+// s = mPbsKC968r
+
+s = Strings.Random(10, 3);
+// s = 4(8VU_GyS|
+// or more special characters like: >=irRG+1a!
+```
+
+### ToEnum&lt;T&gt;()
+```
+T ToEnum<T>()
+```
+
+*Details:*
+* Attempts to convert input string into an enum of Type *T*
+* If string is not a match for the enum *T*, a *ArgumentException* is thrown
+* If conversion fails, it will try to capitalize the fist letter to go with .Net naming conventions, i.e.: "abc" -> "Abc"
+
+*Usage:*
+```
+//showing what the enum looks like:
+public enum Cars { "Corvette", "Pinto" };
+
+//convert a string to the enum
+Cars car = "Corvette".ToEnum<Cars>();
+
+Debug.Assert(car == Cars.Corvette);
+```
+### To&lt;T&gt;()
+```
+T To<T>()
+```
+
+*Details:*
+* Attempts to convert input into a Type *T*
+* *{{ T : struct }}*
+
+*Usage:*
+```
+double eight = "8".To<double>();
+```
+
+### ToNullable&lt;T&gt;()
+```
+Nullable<T> ToNullable<T>()
+```
+
+*Details:*
+* Attempts to convert input into a nullable version of Type *T*
+* *{{ T : struct }}*
+
+*Usage:*
+```
+int? eight = "8".ToNullable<int>();
+decimal? twelve = "12".ToNullable<decimal>();
+double? nullDouble = "".ToNullable<double>(); //outputs null
+```
