@@ -23,13 +23,13 @@ Simple extension to save a FileStream to disk, option to avoid overwriting will 
 ### [StringConversions](https://github.com/naspinski/utilities/blob/master/README.md#stringconversions-1)
 Convert strings to things you often need to convert them to... easily
 
-### IQueryableSearch
+### [IQueryableSearch](https://github.com/naspinski/utilities/blob/master/README.md#iqueryablesearch-1)
 Search all/any properties of an IQueryable with one single search.
 
 The 'quick search' is a great tool. Google has shown us that searching with one single, universal search field is the way that people prefer to search. Anyone who has worked with Linq for any amount of time knows this is possible, but it requires a lot of hard-coding and a long jumble of 'where' statements. This class will allow you to run a universal 'google-like' search on any IQueryable.
 
 
-### LinqToSql [Deprecated]
+### [LinqToSql (Deprecated)](https://naspinski.codeplex.com/wikipage?title=LinqToSql&referringTitle=Documentation)
 Universal Get Extensions for your DataContexts, Find the Primary Key of any table, and more
 
 
