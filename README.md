@@ -130,7 +130,7 @@ string fileName = stream.Save(@"C:\new_directory\file.txt");
 stream.Save(@"C:\new_directory\file.txt", true);
 ```
 
-## StringConversions
+## [StringConversions](https://github.com/naspinski/utilities/blob/master/README.md#stringconversions-1)
 Turns string into other useful stuff without all the code
 
 ### RemoveCharacters()
