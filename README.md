@@ -136,7 +136,8 @@ Turns string into other useful stuff without all the code
 ### RemoveCharacters()
 ```
 string RemoveCharacters(char[] characters)
-111
+```
+
 *Details:*
 * Removes all instances of provided characters from the string
 
