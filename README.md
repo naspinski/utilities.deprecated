@@ -1,4 +1,4 @@
-# Naspinski.Utilities
+# Naspinski.Utilities [Deprecated]
 
 Utilities class for .Net including Dynamic property getters/setters, automatic IQueryable searching, LinqToSql shortcuts, FileStream shortcuts, String extensions and more.
 
